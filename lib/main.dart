@@ -44,7 +44,7 @@ class _BodyWidgetState extends State<BodyWidget> {
     print("opening Pngme SDK...");
     try {
       value = await sdkChannel.invokeMethod("go", <String, dynamic>{
-        'clientKey': 'XXXXXXX',
+        'sdkToken': 'XXXXXXX',
         'firstName': 'Nico',
         'lastName': 'Rico',
         'email': 'nicorico@pngme.com',

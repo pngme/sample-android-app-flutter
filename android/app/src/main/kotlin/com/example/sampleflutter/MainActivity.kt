@@ -21,7 +21,7 @@ class MainActivity: FlutterActivity() {
                 call, result ->
             if (call.method == "go") {
                 // capture call parameters
-                val clientKey: String = call.argument("clientKey")!!
+                val sdkToken: String = call.argument("sdkToken")!!
                 val firstName : String = call.argument("firstName")!!
                 val lastName : String = call.argument("lastName")!!
                 val email : String = call.argument("email")!!
@@ -32,7 +32,7 @@ class MainActivity: FlutterActivity() {
 
                 // create intent for PngmeSDKHelper Activity
                 val intent = Intent(context, PngmeSDKHelper::class.java)
-                intent.putExtra("clientKey", clientKey)
+                intent.putExtra("sdkToken", sdkToken)
                 intent.putExtra("firstName", firstName)
                 intent.putExtra("lastName", lastName)
                 intent.putExtra("email", email)

@@ -142,7 +142,7 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
 This repository is a sample Android app, which uses the Pngme Kotlin SDK with the custom files referenced in the [Get Started](#get-started) section.
 
 The Pngme SDK is launched in the `openSDK()` method located in the Flutter app entrypoint: `lib/main.dart`.
-This method simply calls the `PngmeSDKHelper.kt` class set up in the [Get Started](#get-started) section, using a Flutter channel:
+This method calls the `PngmeSDKHelper.kt` class set up in the [Get Started](#get-started) section, using a Flutter channel:
 ```dart
 String value;
 value = await sdkChannel.invokeMethod("go", <String, dynamic>{
@@ -172,7 +172,9 @@ then the SMS will be back-hauled to Pngme's system
 
 ## Send SMS data locally
 As noted above, the primary responsibility of the Pngme SDK is to send SMS data to the Pngme system.
-This can be tested in a sample app running in the local emulator.
+This can be tested in a sample app running in the local emulator, assuming the emulated app is running with a valid SDK Token.
+
+Android Emulator can simulate incoming SMS messages, and we can use this to test the Pngme SDK locally.
 
 > *If a valid SDK token is used in the `'sdkToken': 'XXXXXXX'` parameter, then the below SMS will be successfully sent to the Pngme system*.
 
@@ -186,6 +188,10 @@ Bal:NGN50,000.00
 
 You can inject this fake SMS into the emulated phone by following these steps.
 It is advisable that you pre-populate the emulated phone with the SMS _before_ running the sample app.
+
+> Once the app gets the permissions form the user it will instantly start sending existing SMS messages to the Pngme system. This results in messages being seen way sooner than SMS received after the app was installed.
+ > 
+ > As stated before, the daemon is processing new messages every 30 minutes, so the new feed messages will take at least 30 minutes to appear in the webconsole.
 
 ![Inject Fake SMS](.docs/inject_fake_sms.png)
 
