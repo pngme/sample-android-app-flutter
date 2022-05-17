@@ -32,13 +32,16 @@ See the [Get Started](#get-started) section for step-by-step instructions.
     - periodically send SMS data to pngme's data processing pipeline
 2. The SDK supports Android API level 16+
 3. The SDK exposes three methods: a main entrypoint method, and two helper methods
-4. Using the SDK requires an SDK `clientKey`. Sign up and get started _for free_ at the [Pngme admin webconsole](https://admin.pngme.com)
+4. Using the SDK requires an **SDK Token**
+   * To retrieve your **SDK Token**, sign up and **get started _for free_** at the [Pngme admin webconsole](https://admin.pngme.com)
+   * Once you have created your organization, navigate to `Keys` in the webconsole and copy the SDK Token for the environment you want to use
+
+ ![webconsole keys screen](.docs/webconsole_keys.png)
 
 When the SDK has been successfully integrated, financial data extracted from a user's SMS will be accessible
 in the [Pngme admin Webconsole](https://admin.pngme.com) or
 via the Pngme REST APIs
 (see the [API Reference docs](https://developers.api.pngme.com/reference/getting-started-with-your-api)).
-
 
 ## Get Started
 To set up your project to use the Pngme SDK, follow these setup steps.
@@ -122,7 +125,7 @@ Specifically, copy this override to the MainActivity class: `override fun config
 Call the Pngme SDK via the Flutter channel from your main flutter app, passing the `go` method in the channel.
 ```dart
 value = await sdkChannel.invokeMethod("go", <String, dynamic>{
-        'clientKey': 'XXXXXXX',
+        'sdkToken': 'XXXXXXX',
         'firstName': 'Nico',
         'lastName': 'Rico',
         'email': 'nicorico@pngme.com',
@@ -137,11 +140,11 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
 This repository is a sample Android app, which uses the Pngme Kotlin SDK with the custom files referenced in the [Get Started](#get-started) section.
 
 The Pngme SDK is launched in the `openSDK()` method located in the Flutter app entrypoint: `lib/main.dart`.
-This method simply calls the `PngmeSDKHelper.kt` class set up in the [Get Started](#get-started) section, using a Flutter channel:
+This method calls the `PngmeSDKHelper.kt` class set up in the [Get Started](#get-started) section, using a Flutter channel:
 ```dart
 String value;
 value = await sdkChannel.invokeMethod("go", <String, dynamic>{
-        'clientKey': 'XXXXXXX',
+        'sdkToken': 'XXXXXXX',
         'firstName': 'Nico',
         'lastName': 'Rico',
         'email': 'nicorico@pngme.com',
@@ -152,9 +155,10 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
       });
 ```
 
-⚠️ The `clientKey` is sensitive and must be protected.
-It should be passed to the application at compile time, and encrypted.
-The `clientKey` as a magic string in the sample app is for demonstration purposes only.
+> ⚠️ The SDK Token is sensitive and must be protected.
+>
+> It should be passed to the application at compile time, and encrypted.
+The SDK Token as a magic string in the sample app is **for demonstration purposes only**.
 
 ### Behavior
 The sample app includes a button that can be pressed once.
@@ -166,8 +170,11 @@ then the SMS will be back-hauled to Pngme's system
 
 ## Send SMS data locally
 As noted above, the primary responsibility of the Pngme SDK is to send SMS data to the Pngme system.
-This can be tested in a sample app running in the local emulator.
-*If a valid SDK token is used in the `'clientKey': 'XXXXXXX'` parameter, then the below SMS can be successfully sent to the Pngme system*.
+This can be tested in a sample app running in the local emulator, assuming the emulated app is running with a valid SDK Token.
+
+Android Emulator can simulate incoming SMS messages, and we can use this to test the Pngme SDK locally.
+
+> *If a valid SDK token is used in the `'sdkToken': 'XXXXXXX'` parameter, then the below SMS will be successfully sent to the Pngme system*.
 
 The following text message is of a recognized format for the Stanbic bank sender: `Stanbic`.
 ```text
@@ -179,6 +186,10 @@ Bal:NGN50,000.00
 
 You can inject this fake SMS into the emulated phone by following these steps.
 It is advisable that you pre-populate the emulated phone with the SMS _before_ running the sample app.
+
+> Once the app gets the permissions form the user it will instantly start sending existing SMS messages to the Pngme system. This results in messages being seen way sooner than SMS received after the app was installed.
+ > 
+ > The daemon is processing new messages every 30 minutes, so the new feed messages will take at least 30 minutes to appear in the webconsole.
 
 ![Inject Fake SMS](.docs/inject_fake_sms.png)
 

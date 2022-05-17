@@ -17,7 +17,7 @@ class PngmeSDKHelper : AppCompatActivity() {
          * capture values from Activity intent
          * (passed to intent via MainActivity w. Flutter channel)
          */
-        val clientKey: String = intent.getStringExtra("clientKey")!!
+        val sdkToken: String = intent.getStringExtra("sdkToken")!!
         val firstName : String = intent.getStringExtra("firstName")!!
         val lastName : String = intent.getStringExtra("lastName")!!
         val email : String = intent.getStringExtra("email")!!
@@ -28,7 +28,7 @@ class PngmeSDKHelper : AppCompatActivity() {
 
         PngmeSdk.go(
             this,
-            clientKey,
+            sdkToken,
             firstName,
             lastName,
             email,
