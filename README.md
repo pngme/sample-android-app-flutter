@@ -191,7 +191,7 @@ It is advisable that you pre-populate the emulated phone with the SMS _before_ r
 
 > Once the app gets the permissions form the user it will instantly start sending existing SMS messages to the Pngme system. This results in messages being seen way sooner than SMS received after the app was installed.
  > 
- > As stated before, the daemon is processing new messages every 30 minutes, so the new feed messages will take at least 30 minutes to appear in the webconsole.
+ > The daemon is processing new messages every 30 minutes, so the new feed messages will take at least 30 minutes to appear in the webconsole.
 
 ![Inject Fake SMS](.docs/inject_fake_sms.png)
 
