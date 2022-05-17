@@ -43,8 +43,6 @@ in the [Pngme admin Webconsole](https://admin.pngme.com) or
 via the Pngme REST APIs
 (see the [API Reference docs](https://developers.api.pngme.com/reference/getting-started-with-your-api)).
 
-> This SDK Token will be passed as the `clientKey` parameter to the Pngme SDK in your app code.
-
 ## Get Started
 To set up your project to use the Pngme SDK, follow these setup steps.
 
