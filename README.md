@@ -121,13 +121,13 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
       });
 ```
 
-> ⚠️ The SDK Token is sensitive and must be protected. It should be passed to the application at compile time and encrypted.
+> ⚠️ The SDK Token is sensitive and must be protected. It should be passed to the application at compile time and encrypted. Consider using an encrypted secrets manager (such as [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/)) to store the SDK token.
 >
 > The SDK Token as an inline string is shown here **for demonstration purposes only**.
 
 | Field           | Description                                                                                             |
 | --------------- | ------------------------------------------------------------------------------------------------------- |
-| `sdkToken`      | the Pngme SDK Token for your account                                                                    |
+| `sdkToken`      | the SDK Token from the [Pngme Dashboard Keys page](https://admin.pngme.com/keys)                        |
 | `firstName`     | the mobile phone user's first name                                                                      |
 | `lastName`      | the mobile phone user's last name                                                                       |
 | `email`         | the mobile phone user's email address                                                                   |
