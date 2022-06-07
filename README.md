@@ -13,12 +13,12 @@ You can find similar documentation for [Kotlin](https://github.com/pngme/sample-
 
 1. The SDK supports Android API version 16+
 1. The SDK enables your app to:
-    1. Register a mobile phone user with Pngme
-    1. Request SMS permissions from the user using a [Permission Dialog Flow](.docs/permission_flow.gif)
-    1. Periodically send data to Pngme to analyze financial events
+   1. Register a mobile phone user with Pngme
+   1. Request SMS permissions from the user using a [Permission Dialog Flow](.docs/permission_flow.gif)
+   1. Periodically send data to Pngme to analyze financial events
 1. Using the SDK requires an **SDK Token**
-   * [**Sign up for a free Pngme Dashboard account**](https://admin.pngme.com) then access your SDK token from the [Keys page](https://admin.pngme.com/keys)
-   * Use the `test` SDK token during development but replace with the `production` SDK token before deploying your app to the Google Play store
+   - [**Sign up for a free Pngme Dashboard account**](https://admin.pngme.com) then access your SDK token from the [Keys page](https://admin.pngme.com/keys)
+   - Use the `test` SDK token during development but replace with the `production` SDK token before deploying your app to the Google Play store
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/pngme/sample-android-app-flutter/main/.docs/webconsole_keys.png" width=450 height=300/>
@@ -74,7 +74,7 @@ Enable multidex support in `/android/app/build.gradle`.
 ```groovy
 android {
     defaultConfig {
-        multiDexEnabled = true  
+        multiDexEnabled = true
     }
 }
 ```
@@ -91,18 +91,18 @@ package com.example.sampleflutter  // update project name here
 
 ### Step 6
 
-Add the `PngmeSDKHelper` as an activity in `/android/app/src/main/AndroidManifest.xml`:
+Add the `PngmeSDKHelper` as an activity in [/android/app/src/main/AndroidManifest.xml](/android/app/src/main/AndroidManifest.xml).
+
+⚠️ Modify `com.example.sampleflutter` to match your project name.
 
 ```xml
 <activity android:name="com.example.sampleflutter.PngmeSDKHelper" android:theme="@style/Theme.AppCompat.NoActionBar" />
+<!--                   ^ update project name here                                                                   -->
 ```
-
-⚠️ Change `com.example.sampleflutter` to match your project name.
 
 ### Step 7
 
-Add the Flutter channel and ensure you override the `configureFlutterEngine` method  in your main activity similar to [/android/app/src/main/kotlin/com/example/sampleflutter/MainActivity.kt](/android/app/src/main/kotlin/com/example/sampleflutter/MainActivity.kt).
-
+Add the Flutter channel and ensure you override the `configureFlutterEngine` method in your main activity similar to [/android/app/src/main/kotlin/com/example/sampleflutter/MainActivity.kt](/android/app/src/main/kotlin/com/example/sampleflutter/MainActivity.kt).
 
 ### Step 8
 
@@ -124,6 +124,17 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
 > ⚠️ The SDK Token is sensitive and must be protected. It should be passed to the application at compile time and encrypted.
 >
 > The SDK Token as an inline string is shown here **for demonstration purposes only**.
+
+| Field           | Description                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------- |
+| `sdkToken`      | the Pngme SDK Token for your account                                                                    |
+| `firstName`     | the mobile phone user's first name                                                                      |
+| `lastName`      | the mobile phone user's last name                                                                       |
+| `email`         | the mobile phone user's email address                                                                   |
+| `phoneNumber`   | the mobile phone user's phone number, example `"23411234567"`                                           |
+| `externalId`    | a unique identifier for the user provided by your app; if none available, pass an empty string `""`     |
+| `isKycVerified` | a boolean, indicating if your app has verified the user's identity using KYC                            |
+| `companyName`   | your company's name, used in the display header of the [SMS Permission Flow](.docs/permission_flow.gif) |
 
 ## Sample Flutter App
 
@@ -159,9 +170,10 @@ This can be tested in a sample app running in the local emulator, assuming the e
 
 Android Emulator can simulate incoming SMS messages, and we can use this to test the Pngme SDK locally.
 
-> *If a valid SDK token is used in the `'sdkToken': 'XXXXXXX'` parameter, then the below SMS will be successfully sent to the Pngme system*.
+> _If a valid SDK token is used in the `'sdkToken': 'XXXXXXX'` parameter, then the below SMS will be successfully sent to the Pngme system_.
 
 The following text message is of a recognized format for the Stanbic bank sender: `Stanbic`.
+
 ```text
 Acc:XXXXXX1111
 CR:NGN4,000.00
@@ -173,8 +185,8 @@ You can inject this fake SMS into the emulated phone by following these steps.
 It is advisable that you pre-populate the emulated phone with the SMS _before_ running the sample app.
 
 > Once the app gets the permissions form the user it will instantly start sending existing SMS messages to the Pngme system. This results in messages being seen way sooner than SMS received after the app was installed.
- > 
- > The daemon is processing new messages every 30 minutes, so the new feed messages will take at least 30 minutes to appear in the webconsole.
+>
+> The daemon is processing new messages every 30 minutes, so the new feed messages will take at least 30 minutes to appear in the webconsole.
 
 ![Inject Fake SMS](.docs/inject_fake_sms.png)
 
