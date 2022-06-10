@@ -1,58 +1,39 @@
-# Pngme Android (Flutter) integration & Sample App
+<p align="center">
+  <img src="https://admin.pngme.com/logo.png" alt="Pngme" width="100" height="100">
+  <h3 align="center">Pngme Android (Flutter) Integration & Sample App</h3>
+</p>
 
-*Welcome to the Pngme v2.x Flutter Integration!*<br>
-This Readme will cover how to use the Kotlin SDK v2.x with Flutter, 
-including get-started basics, and a sample Android app.
+This documentation covers how to use the Kotlin SDK v2.x with Flutter.
 
-### Legacy SDK
-[Contact Pngme](mailto:support@pngme.com) for a copy of documentation on the legacy SDK (v1.0.34).
+You can find similar documentation for [Kotlin](https://github.com/pngme/sample-android-app-kotlin) and [React Native](https://github.com/pngme/sample-android-app-react-native).
 
-### Kotlin
-For the v2.x *Kotlin* docs and sample app, visit [here](https://github.com/pngme/sample-android-app-kotlin).
-
-### React Native
-For the v2.x *React Native* docs app,visit [here](https://github.com/pngme/sample-android-app-react-native).
-
-## How it works
-Pngme does not currently provide a native Flutter (Dart) package for the Pngme SDK.
-Instead, this repo includes instructions for how to configure your `/android` directory 
-so the Kotlin SDK is callable from your Flutter app.
-
-These steps include:
-- adding a Kotlin Activity class (`PngmeSDKHelper.kt`) that wraps the Pngme SDK
-- modify the Kotlin `MainActivity.kt` to add a [channel](https://docs.flutter.dev/development/platform-integration/platform-channels)
-  that can be accessed from the main Flutter app, and used to manage the above-mentioned Activity.
-
-See the [Get Started](#get-started) section for step-by-step instructions.
-
-## v2.x SDK - the basics
-1. The SDK accomplishes three tasks:
-    - register a mobile phone user with pngme's identity system
-    - request permission for SMS from the user, with a [Permission Dialog Flow](.docs/permission_flow.gif)
-    - periodically send SMS data to pngme's data processing pipeline
-2. The SDK supports Android API level 16+
-3. The SDK exposes three methods: a main entrypoint method, and two helper methods
-4. Using the SDK requires an **SDK Token**
-   * To retrieve your **SDK Token**, sign up and **get started _for free_** at the [Pngme admin webconsole](https://admin.pngme.com)
-   * Once you have created your organization, navigate to `Keys` in the webconsole and copy the SDK Token for the environment you want to use
-
- ![webconsole keys screen](.docs/webconsole_keys.png)
-
-When the SDK has been successfully integrated, financial data extracted from a user's SMS will be accessible
-in the [Pngme admin Webconsole](https://admin.pngme.com) or
-via the Pngme REST APIs
-(see the [API Reference docs](https://developers.api.pngme.com/reference/getting-started-with-your-api)).
-
-## Get Started
-To set up your project to use the Pngme SDK, follow these setup steps.
+> Pngme does not currently provide a native Flutter (Dart) SDK but the Kotlin SDK is compatible with Flutter apps using the following steps.
 
 ## Setup
-This sample app assumes you have Android Studio installed,
-and your local environment is configured for Flutter development as per [official documentation](https://docs.flutter.dev/get-started/install).
 
-### _Step 1_
-Resolve the JitPack package manager in your Gradle file.
-Add the following to `/android/build.gradle`.
+1. The SDK supports Android API version 16+
+1. The SDK enables your app to:
+   1. Register a mobile phone user with Pngme
+   1. Request SMS permissions from the user using a [Permission Dialog Flow](.docs/permission_flow.gif)
+   1. Periodically send data to Pngme to analyze financial events
+1. Using the SDK requires an **SDK Token**
+   - [**Sign up for a free Pngme Dashboard account**](https://admin.pngme.com) then access your SDK token from the [Keys page](https://admin.pngme.com/keys)
+   - Use the `test` SDK token during development but replace with the `production` SDK token before deploying your app to the Google Play store
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/pngme/sample-android-app-flutter/main/.docs/webconsole_keys.png" width=450 height=300/>
+</p>
+
+After integrating the SDK, financial data will be accessible in the [Pngme Dashboard](https://admin.pngme.com/users) and via the [Pngme REST APIs](https://developers.api.pngme.com/reference/).
+
+## Integrating the SDK
+
+This sample app assumes you have Android Studio installed and your local environment is [configured for Flutter development](https://docs.flutter.dev/get-started/install).
+
+### Step 1
+
+Add the JitPack package manager to `/android/build.gradle`.
+
 ```groovy
     allprojects {
         repositories {
@@ -61,68 +42,72 @@ Add the following to `/android/build.gradle`.
     }
 ```
 
-### _Step 2_
-In the same `/android/build.gradle` file, 
-update `ext.kotlin_version` to `'1.4.32'` if you are using an older version.
-If you are using a newer version please ignore this step.
+### Step 2
+
+Check that `ext.kotlin_version >= '1.4.32'` in `/android/build.gradle`. You can skip this step if you are using a newer version.
+
 ```groovy
 buildscript {
-    ext.kotlin_version = '1.4.32' // <-- update version here
-    repositories {
-        google()
-        jcenter()
-    }
+    ext.kotlin_version = '1.4.32'  // update version here
+    ...
 ```
 
-### _Step 3_
-Add the following dependencies to `android/app/build.gradle`.
-This includes the `v2.0.4` version of the Pngme Android Native Kotlin SDK.
+### Step 3
+
+Add the following dependencies to `/android/app/build.gradle`.
+
 ```groovy
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    // Add from here
-    implementation ('com.github.pngme:android-sdk:v2.0.4')
+    // add from here
+    implementation 'com.github.pngme:android-sdk:v2.0.4'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation("androidx.multidex:multidex:2.0.1")
+    implementation 'androidx.multidex:multidex:2.0.1'
     // to here
 }
 ```
 
-### _Step 4_
-In the same `android/app/build.gradle` file, add the following to the `android` section:
+### Step 4
+
+Enable multidex support in `/android/app/build.gradle`.
+
 ```groovy
 android {
     defaultConfig {
-        multiDexEnabled = true  
+        multiDexEnabled = true
     }
 }
 ```
 
-### _Step 5_
-Create the Pngme SDK wrapper.
-Copy the following file from this repo into your project:
-`/android/app/src/main/kotlin/com/example/sampleflutter/PngmeSDKHelper.kt`
+### Step 5
 
-⚠️ *Modify the top line of the `PngmeSDKHelper.kt` file to match your project path/naming.*
+Add the compatibility activity from [/android/app/src/main/kotlin/com/example/sampleflutter/PngmeSDKHelper.kt](/android/app/src/main/kotlin/com/example/sampleflutter/PngmeSDKHelper.kt) by copying the entire file into your project.
+
+⚠️ Modify the top line of the `PngmeSDKHelper.kt` file to match your project path/naming.
+
 ```groovy
-package com.example.sampleflutter
+package com.example.sampleflutter  // update project name here
 ```
-⬆️ _change this!_
 
-### _Step 6_
-Add the PngmeSDKHelper as an activity in your manifest `/android/app/src/main/AndroidManifest.xml`:
+### Step 6
+
+Add the `PngmeSDKHelper` as an activity in [/android/app/src/main/AndroidManifest.xml](/android/app/src/main/AndroidManifest.xml).
+
+⚠️ Modify `com.example.sampleflutter` to match your project name.
+
 ```xml
 <activity android:name="com.example.sampleflutter.PngmeSDKHelper" android:theme="@style/Theme.AppCompat.NoActionBar" />
+<!--                   ^ update project name here                                                                   -->
 ```
-⚠️ *As above, change `com.example.sampleflutter` to match your project path/naming.*
 
-### _Step 6_
-Add the Flutter channel to your main activity `/android/app/src/main/kotlin/com/<my>/<app>/MainActivity.kt`.
-Modify the `MainActivity.kt` to match that included in this sample app.
-Specifically, copy this override to the MainActivity class: `override fun configureFlutterEngine(...) {...}`
+### Step 7
 
-### _Step 7_
-Call the Pngme SDK via the Flutter channel from your main flutter app, passing the `go` method in the channel.
+Add the Flutter channel and ensure you override the `configureFlutterEngine` method in your main activity similar to [/android/app/src/main/kotlin/com/example/sampleflutter/MainActivity.kt](/android/app/src/main/kotlin/com/example/sampleflutter/MainActivity.kt).
+
+### Step 8
+
+Call the Pngme SDK via the Flutter channel from your main Flutter app, passing the `go` method in the channel.
+
 ```dart
 value = await sdkChannel.invokeMethod("go", <String, dynamic>{
         'sdkToken': 'XXXXXXX',
@@ -136,11 +121,25 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
       });
 ```
 
-## Sample Android App
-This repository is a sample Android app, which uses the Pngme Kotlin SDK with the custom files referenced in the [Get Started](#get-started) section.
+> ⚠️ The SDK Token is sensitive and must be protected. It should be passed to the application at compile time and encrypted. Consider using an encrypted secrets manager (such as [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/)) to store the SDK token.
+>
+> The SDK Token as an inline string is shown here **for demonstration purposes only**.
 
-The Pngme SDK is launched in the `openSDK()` method located in the Flutter app entrypoint: `lib/main.dart`.
-This method calls the `PngmeSDKHelper.kt` class set up in the [Get Started](#get-started) section, using a Flutter channel:
+| Field           | Description                                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------- |
+| `sdkToken`      | the SDK Token from the [Pngme Dashboard Keys page](https://admin.pngme.com/keys)                        |
+| `firstName`     | the mobile phone user's first name                                                                      |
+| `lastName`      | the mobile phone user's last name                                                                       |
+| `email`         | the mobile phone user's email address                                                                   |
+| `phoneNumber`   | the mobile phone user's phone number, example `"23411234567"`                                           |
+| `externalId`    | a unique identifier for the user provided by your app; if none available, pass an empty string `""`     |
+| `isKycVerified` | a boolean, indicating if your app has verified the user's identity using KYC                            |
+| `companyName`   | your company's name, used in the display header of the [SMS Permission Flow](.docs/permission_flow.gif) |
+
+## Sample Flutter App
+
+The Pngme SDK is launched in the `openSDK()` method located in the Flutter app entrypoint: [`lib/main.dart`](lib/main.dart). This triggers a demo call to the PngmeSDK using the following arguments:
+
 ```dart
 String value;
 value = await sdkChannel.invokeMethod("go", <String, dynamic>{
@@ -155,28 +154,26 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
       });
 ```
 
-> ⚠️ The SDK Token is sensitive and must be protected.
->
-> It should be passed to the application at compile time, and encrypted.
-The SDK Token as a magic string in the sample app is **for demonstration purposes only**.
-
 ### Behavior
-The sample app includes a button that can be pressed once.
-When the button is pressed, the SDK is invoked, creating a user in Pngme's system specified by the params passed in the `openSDK()` method in `main.dart`.
-_The SMS [Permission Flow](.docs/permission_flow.gif) is shown to the user the first time, and only the first time, that the SDK is invoked_.
-If SMS permissions are granted by the user, and SMS are present on the phone, 
-then the SMS will be back-hauled to Pngme's system 
-(and continue to be back-hauled periodically by the background Android worker).
 
-## Send SMS data locally
-As noted above, the primary responsibility of the Pngme SDK is to send SMS data to the Pngme system.
+The sample app includes a single button that triggers the Pngme SDK.
+
+If the user is triggering the SDK for the first time, the [SMS Permission Flow](.docs/permission_flow.gif) is shown.
+
+When SMS permissions are granted by the user, SMS will be sent from the user's phone to Pngme.
+
+Granting SMS permissions will periodically (every 30 minutes) send any new SMS from the user's phone to Pngme using a background Android worker.
+
+### Sending test data
+
 This can be tested in a sample app running in the local emulator, assuming the emulated app is running with a valid SDK Token.
 
 Android Emulator can simulate incoming SMS messages, and we can use this to test the Pngme SDK locally.
 
-> *If a valid SDK token is used in the `'sdkToken': 'XXXXXXX'` parameter, then the below SMS will be successfully sent to the Pngme system*.
+> _If a valid SDK token is used in the `'sdkToken': 'XXXXXXX'` parameter, then the below SMS will be successfully sent to the Pngme system_.
 
 The following text message is of a recognized format for the Stanbic bank sender: `Stanbic`.
+
 ```text
 Acc:XXXXXX1111
 CR:NGN4,000.00
@@ -188,8 +185,8 @@ You can inject this fake SMS into the emulated phone by following these steps.
 It is advisable that you pre-populate the emulated phone with the SMS _before_ running the sample app.
 
 > Once the app gets the permissions form the user it will instantly start sending existing SMS messages to the Pngme system. This results in messages being seen way sooner than SMS received after the app was installed.
- > 
- > The daemon is processing new messages every 30 minutes, so the new feed messages will take at least 30 minutes to appear in the webconsole.
+>
+> The daemon is processing new messages every 30 minutes, so the new feed messages will take at least 30 minutes to appear in the webconsole.
 
 ![Inject Fake SMS](.docs/inject_fake_sms.png)
 
@@ -204,17 +201,6 @@ The fake SMS will be sent to the Pngme system using the SDK token from your Pngm
 If the sample app runs successfully, the financial data in the text message will be accessible
 via the [Pngme REST APIs](https://developers.api.pngme.com/reference/getting-started-with-your-api) or in the [Pngme webconsole](https://admin.pngme.com).
 
-## Publishing to the Google Store
-So you have a working app! Congrats! But... it's not over yet.
-You will still need to whitelist your app with the Google Play store.  
-This is a special step necessary for any apps that require SMS permissions from the user.
+## Next steps
 
-The whitelisting process is not hard, but if you have never whitelisted an app before, you may want assistance.
-Pngme can offer support in whitelisting your app, free of charge.
-Simply [contact us](mailto:whitelisting@pngme.com)
-and also visit our guide: [Going Live](https://developers.api.pngme.com/docs/going-live-with-the-sdk).
-We'll help you get your app through the approval process faster than you can say `Hello World!`
-
-If you insist on whitelisting your app without Pngme's assistance,
-please let us know and we will provide you with instructions.
-These will help you avoid setbacks when submitting your app for review.
+See [Going Live with the SDK](https://developers.api.pngme.com/docs/going-live-with-the-sdk) to learn more about the whitelisting process with the Google Play store.
