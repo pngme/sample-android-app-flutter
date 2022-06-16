@@ -136,6 +136,37 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
 | `isKycVerified` | a boolean, indicating if your app has verified the user's identity using KYC                            |
 | `companyName`   | your company's name, used in the display header of the [SMS Permission Flow](.docs/permission_flow.gif) |
 
+## PngmeSDK API
+
+### `resetPermissionFlow()`
+
+```kotlin
+fun resetPermissionFlow(context: Context)
+```
+
+| Field   | Description             |
+| ------- | ----------------------- |
+| context | the current app Context |
+
+The [Permission Dialog Flow](.docs/permission_flow.gif) will only run the first time that the `go` method is invoked.
+If your app needs to implement logic to show the Dialog Flow again,
+then you can reset the permission flow by calling `resetPermissionFlow`.
+
+### `isPermissionGranted()`
+
+```kotlin
+fun isPermissionGranted(context: Context): Boolean
+```
+
+| Field   | Description             |
+| ------- | ----------------------- |
+| context | the current app Context |
+
+This indicates if the user has accepted the SMS permissions request:
+
+- Returns `true` if the user has accepted the SMS permission request.
+- Returns `false` if the user has denied the SMS permission request.
+
 ## Sample Flutter App
 
 The Pngme SDK is launched in the `openSDK()` method located in the Flutter app entrypoint: [`lib/main.dart`](lib/main.dart). This triggers a demo call to the PngmeSDK using the following arguments:
