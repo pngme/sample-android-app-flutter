@@ -5,7 +5,7 @@
 
 This documentation covers how to use the Kotlin SDK v2.x with Flutter.
 
-You can find similar documentation for [Kotlin](https://github.com/pngme/sample-android-app-kotlin) and [React Native](https://github.com/pngme/sample-android-app-react-native).
+You can find similar documentation for [Kotlin](https://github.com/pngme/sample-android-app-kotlin), [Expo](https://github.com/pngme/sample-android-app-react-native-expo), and [React Native](https://github.com/pngme/sample-android-app-react-native).
 
 > Pngme does not currently provide a native Flutter (Dart) SDK but the Kotlin SDK is compatible with Flutter apps using the following steps.
 
