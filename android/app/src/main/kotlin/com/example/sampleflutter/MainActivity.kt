@@ -29,6 +29,7 @@ class MainActivity: FlutterActivity() {
                 val externalId : String = call.argument("externalId")!!
                 val isKycVerified: Boolean = call.argument("isKycVerified")!!
                 val companyName : String = call.argument("companyName")!!
+                val hidePngmeDialog : Boolean = call.argument("hidePngmeDialog")!!
 
                 // create intent for PngmeSDKHelper Activity
                 val intent = Intent(context, PngmeSDKHelper::class.java)
@@ -40,6 +41,7 @@ class MainActivity: FlutterActivity() {
                 intent.putExtra("externalId", externalId)
                 intent.putExtra("isKycVerified", isKycVerified)
                 intent.putExtra("companyName", companyName)
+                intent.putExtra("hidePngmeDialog", hidePngmeDialog)
 
                 // launch activity
                 activity.startActivity(intent)

@@ -43,8 +43,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.sampleflutter"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 16
+        targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled = true
@@ -65,6 +65,6 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation ('com.github.pngme:android-sdk:v2.0.4')
-    implementation("androidx.multidex:multidex:2.0.1")
+    implementation 'com.github.pngme:android-sdk:hide-dialog-flow-SNAPSHOT'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }

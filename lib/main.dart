@@ -44,14 +44,15 @@ class _BodyWidgetState extends State<BodyWidget> {
     print("opening Pngme SDK...");
     try {
       value = await sdkChannel.invokeMethod("go", <String, dynamic>{
-        'sdkToken': 'XXXXXXX',
+        'sdkToken': 'cc94dacfc4b816fabf9bd0f12e892172d05de9c57209922efe8378707dd846704f6b885beb71228a564190a56e673810',
         'firstName': 'Nico',
-        'lastName': 'Rico',
+        'lastName': 'Flutter 5',
         'email': 'nicorico@pngme.com',
-        'phoneNumber': '2348118445990',
+        'phoneNumber': '2348118445005',
         'externalId': '',
         'isKycVerified': false,
-        'companyName': 'AcmeInc'
+        'companyName': 'AcmeInc',
+        'hidePngmeDialog': true,
       });
       print(value);
     } catch (e) {
