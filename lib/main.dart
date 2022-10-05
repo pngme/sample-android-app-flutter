@@ -42,6 +42,11 @@ class _BodyWidgetState extends State<BodyWidget> {
   void openSDK() async {
     String value;
     print("opening Pngme SDK...");
+
+    // Put here your SDK token
+    // You can find it in the webconsole at admin.pngme.com under Settings > Keys
+    // If you are just checking the sample app, it is best to use the Test token
+    // Then, you can browse any sent data in the webconsole under Dashboard > Explore Data > (Select Test Environment on the right)
     try {
       value = await sdkChannel.invokeMethod("go", <String, dynamic>{
         'sdkToken': 'XXXXXXX',
