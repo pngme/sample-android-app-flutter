@@ -118,6 +118,8 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
         'externalId': '',
         'isKycVerified': false,
         'companyName': 'AcmeInc'
+        'hidePngmeDialog': boolean; // defaults to false
+
       });
 ```
 
@@ -135,6 +137,8 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
 | `externalId`    | a unique identifier for the user provided by your app; if none available, pass an empty string `""`     |
 | `isKycVerified` | a boolean, indicating if your app has verified the user's identity using KYC                            |
 | `companyName`   | your company's name, used in the display header of the [SMS Permission Flow](.docs/permission_flow.gif) |
+| hidePngmeDialog | a boolean, indicating if the Pngme dialog should be hidden in the permissions UI flow                   |
+
 
 ## PngmeSDK API
 
@@ -187,13 +191,14 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
 
 ### Behavior
 
-The sample app includes a single button that triggers the Pngme SDK.
+The sample app demonstrates a basic flow:
 
-If the user is triggering the SDK for the first time, the [SMS Permission Flow](.docs/permission_flow.gif) is shown.
-
-When SMS permissions are granted by the user, SMS will be sent from the user's phone to Pngme.
-
-Granting SMS permissions will periodically (every 30 minutes) send any new SMS from the user's phone to Pngme using a background Android worker.
+1. user creates an account with the app
+2. the user goes to apply for a loan, and has the option of selecting to use the Pngme service
+3. if the Pngme service is selected, the SDK is invoked, and the [Permission Flow](.docs/permission_flow.gif) is presented (unless the `hidePngmeDialog` flag has been set to `true`)
+  
+    <sub>- :warning: _Note that if a user chooses to hide the permissions flow, they will need to design their own information and consent screen compliant with Google Whitelisting requirements. Consult with <support@pngme.com> if you would like assistance with this process._</sub>
+4. when the permission flow exits, the user is presented with a fake loan application page
 
 ### Sending test data
 
