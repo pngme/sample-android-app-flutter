@@ -25,6 +25,7 @@ class PngmeSDKHelper : AppCompatActivity() {
         val externalId : String = intent.getStringExtra("externalId")!!
         val isKycVerified: Boolean = intent.getBooleanExtra("isKycVerified", false)
         val companyName : String = intent.getStringExtra("companyName")!!
+        val hidePngmeDialog: Boolean = intent.getBooleanExtra("hidePngmeDialog", false)
 
         PngmeSdk.go(
             this,
@@ -36,6 +37,7 @@ class PngmeSDKHelper : AppCompatActivity() {
             externalId,
             isKycVerified,
             companyName,
+            hidePngmeDialog,
             :: onComplete
         )
     }

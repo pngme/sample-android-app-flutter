@@ -56,7 +56,8 @@ class _BodyWidgetState extends State<BodyWidget> {
         'phoneNumber': '2348118445990',
         'externalId': '',
         'isKycVerified': false,
-        'companyName': 'AcmeInc'
+        'companyName': 'AcmeInc',
+        'hidePngmeDialog': false
       });
       print(value);
     } catch (e) {
@@ -67,7 +68,7 @@ class _BodyWidgetState extends State<BodyWidget> {
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style =
-    ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
 
     return Center(
       child: Column(
