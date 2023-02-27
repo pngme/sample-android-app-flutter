@@ -8,7 +8,6 @@ import io.flutter.plugin.common.MethodChannel
 import android.content.Intent
 import com.pngme.sdk.library.PngmeSdk
 import com.pngme.sdk.library.common.Environment
-import com.pngme.sdk.library.data.KYCDataInfo
 import com.pngme.sdk.library.data.LoanInfo
 import com.pngme.sdk.library.data.UserInfo
 
@@ -27,7 +26,6 @@ class MainActivity: FlutterActivity() {
                 val email : String = call.argument("email")!!
                 val phoneNumber : String = call.argument("phoneNumber")!!
                 val externalId : String = call.argument("externalId")!!
-                val isKycVerified: Boolean = call.argument("isKycVerified")!!
                 val companyName : String = call.argument("companyName")!!
                 val hidePngmeDialog: Boolean = call.argument("hidePngmeDialog")!!
 
@@ -39,7 +37,6 @@ class MainActivity: FlutterActivity() {
                 intent.putExtra("email", email)
                 intent.putExtra("phoneNumber", phoneNumber)
                 intent.putExtra("externalId", externalId)
-                intent.putExtra("isKycVerified", isKycVerified)
                 intent.putExtra("companyName", companyName)
                 intent.putExtra("hidePngmeDialog", hidePngmeDialog)
 
