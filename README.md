@@ -135,10 +135,8 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
 | `email`         | the mobile phone user's email address                                                                   |
 | `phoneNumber`   | the mobile phone user's phone number, example `"23411234567"`                                           |
 | `externalId`    | a unique identifier for the user provided by your app; if none available, pass an empty string `""`     |
-| `isKycVerified` | a boolean, indicating if your app has verified the user's identity using KYC                            |
 | `companyName`   | your company's name, used in the display header of the [SMS Permission Flow](.docs/permission_flow.gif) |
 | hidePngmeDialog | a boolean, indicating if the Pngme dialog should be hidden in the permissions UI flow                   |
-
 
 ## PngmeSDK API
 
@@ -196,8 +194,9 @@ The sample app demonstrates a basic flow:
 1. user creates an account with the app
 2. the user goes to apply for a loan, and has the option of selecting to use the Pngme service
 3. if the Pngme service is selected, the SDK is invoked, and the [Permission Flow](.docs/permission_flow.gif) is presented (unless the `hidePngmeDialog` flag has been set to `true`)
-  
-    <sub>- :warning: _Note that if a user chooses to hide the permissions flow, they will need to design their own information and consent screen compliant with Google Whitelisting requirements. Consult with <support@pngme.com> if you would like assistance with this process._</sub>
+
+   <sub>- :warning: _Note that if a user chooses to hide the permissions flow, they will need to design their own information and consent screen compliant with Google Whitelisting requirements. Consult with <support@pngme.com> if you would like assistance with this process._</sub>
+
 4. when the permission flow exits, the user is presented with a fake loan application page
 
 ### Sending test data

@@ -23,7 +23,6 @@ class PngmeSDKHelper : AppCompatActivity() {
         val email : String = intent.getStringExtra("email")!!
         val phoneNumber : String = intent.getStringExtra("phoneNumber")!!
         val externalId : String = intent.getStringExtra("externalId")!!
-        val isKycVerified: Boolean = intent.getBooleanExtra("isKycVerified", false)
         val companyName : String = intent.getStringExtra("companyName")!!
         val hidePngmeDialog: Boolean = intent.getBooleanExtra("hidePngmeDialog", false)
 
@@ -35,7 +34,6 @@ class PngmeSDKHelper : AppCompatActivity() {
             email,
             phoneNumber,
             externalId,
-            isKycVerified,
             companyName,
             hidePngmeDialog,
             :: onComplete
