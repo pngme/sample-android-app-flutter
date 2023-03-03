@@ -116,7 +116,6 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
         'email': 'nicorico@pngme.com',
         'phoneNumber': '2348118445990',
         'externalId': '',
-        'isKycVerified': false,
         'companyName': 'AcmeInc'
         'hidePngmeDialog': boolean; // defaults to false
 
@@ -182,7 +181,6 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
         'email': 'nicorico@pngme.com',
         'phoneNumber': '2348118445990',
         'externalId': '',
-        'isKycVerified': false,
         'companyName': 'AcmeInc'
       });
 ```
