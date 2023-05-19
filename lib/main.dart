@@ -55,8 +55,7 @@ class _BodyWidgetState extends State<BodyWidget> {
         'email': 'nicorico@pngme.com',
         'phoneNumber': '2348118445990',
         'externalId': '',
-        'companyName': 'AcmeInc',
-        'hidePngmeDialog': false
+        'companyName': 'AcmeInc'
       });
       print(value);
     } catch (e) {

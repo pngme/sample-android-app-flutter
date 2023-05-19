@@ -27,7 +27,6 @@ class MainActivity: FlutterActivity() {
                 val phoneNumber : String = call.argument("phoneNumber")!!
                 val externalId : String = call.argument("externalId")!!
                 val companyName : String = call.argument("companyName")!!
-                val hidePngmeDialog: Boolean = call.argument("hidePngmeDialog")!!
 
                 // create intent for PngmeSDKHelper Activity
                 val intent = Intent(context, PngmeSDKHelper::class.java)
@@ -38,7 +37,6 @@ class MainActivity: FlutterActivity() {
                 intent.putExtra("phoneNumber", phoneNumber)
                 intent.putExtra("externalId", externalId)
                 intent.putExtra("companyName", companyName)
-                intent.putExtra("hidePngmeDialog", hidePngmeDialog)
 
                 // launch activity
                 activity.startActivity(intent)
