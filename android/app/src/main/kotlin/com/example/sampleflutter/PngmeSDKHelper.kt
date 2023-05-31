@@ -24,7 +24,6 @@ class PngmeSDKHelper : AppCompatActivity() {
         val phoneNumber : String = intent.getStringExtra("phoneNumber")!!
         val externalId : String = intent.getStringExtra("externalId")!!
         val companyName : String = intent.getStringExtra("companyName")!!
-        val hidePngmeDialog: Boolean = intent.getBooleanExtra("hidePngmeDialog", false)
 
         PngmeSdk.go(
             this,
@@ -35,8 +34,7 @@ class PngmeSDKHelper : AppCompatActivity() {
             phoneNumber,
             externalId,
             companyName,
-            hidePngmeDialog,
-            :: onComplete
+            ::onComplete
         )
     }
 
