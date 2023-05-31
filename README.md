@@ -106,7 +106,7 @@ Add the Flutter channel and ensure you override the `configureFlutterEngine` met
 
 ### Step 8
 
-Call the Pngme SDK via the Flutter channel from your main Flutter app, passing the `go` or `goWithCustomDialog` method in the channel.
+Call the Pngme SDK via the Flutter channel from your main Flutter app, passing the `go` method in the channel.
 
 ```dart
 value = await sdkChannel.invokeMethod("go", <String, dynamic>{
@@ -120,7 +120,7 @@ value = await sdkChannel.invokeMethod("go", <String, dynamic>{
       });
 ```
 
-or 
+If you would like to use your own onboarding flow in which a user is presented with Pngme's terms & conditions and privacy policy, you can use the `goWithCustomDialog` method.
 
 ```dart
 value = await sdkChannel.invokeMethod("goWithCustomDialog", <String, dynamic>{
