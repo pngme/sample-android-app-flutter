@@ -50,11 +50,7 @@ class _BodyWidgetState extends State<BodyWidget> {
     try {
       value = await sdkChannel.invokeMethod("go", <String, dynamic>{
         'sdkToken': 'XXXXXXX',
-        'firstName': 'Nico',
-        'lastName': 'Rico',
-        'email': 'nicorico@pngme.com',
-        'phoneNumber': '2348118445990',
-        'externalId': '',
+        'externalId': '2348118445990',
         'companyName': 'AcmeInc'
       });
       print(value);

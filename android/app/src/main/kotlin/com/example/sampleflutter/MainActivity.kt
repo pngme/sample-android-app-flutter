@@ -21,20 +21,12 @@ class MainActivity: FlutterActivity() {
             if (call.method == "go") {
                 // capture call parameters
                 val sdkToken: String = call.argument("sdkToken")!!
-                val firstName : String = call.argument("firstName")!!
-                val lastName : String = call.argument("lastName")!!
-                val email : String = call.argument("email")!!
-                val phoneNumber : String = call.argument("phoneNumber")!!
                 val externalId : String = call.argument("externalId")!!
                 val companyName : String = call.argument("companyName")!!
 
                 // create intent for PngmeSDKHelper Activity
                 val intent = Intent(context, PngmeSDKHelper::class.java)
                 intent.putExtra("sdkToken", sdkToken)
-                intent.putExtra("firstName", firstName)
-                intent.putExtra("lastName", lastName)
-                intent.putExtra("email", email)
-                intent.putExtra("phoneNumber", phoneNumber)
                 intent.putExtra("externalId", externalId)
                 intent.putExtra("companyName", companyName)
 

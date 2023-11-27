@@ -60,7 +60,7 @@ Add the following dependencies to `/android/app/build.gradle`.
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // add from here
-    implementation 'com.github.pngme:android-sdk:v5.0.0'
+    implementation 'com.github.pngme:android-sdk:v6.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     // to here
@@ -111,11 +111,7 @@ Call the Pngme SDK via the Flutter channel from your main Flutter app, passing t
 ```dart
 value = await sdkChannel.invokeMethod("go", <String, dynamic>{
         'sdkToken': 'XXXXXXX',
-        'firstName': 'Nico',
-        'lastName': 'Rico',
-        'email': 'nicorico@pngme.com',
-        'phoneNumber': '2348118445990',
-        'externalId': '',
+        'externalId': 'xxxxxx', // a unique identifier for the user provided by your app can be phone number
         'companyName': 'AcmeInc'
       });
 ```
@@ -125,11 +121,7 @@ If you would like to use your own onboarding flow in which a user is presented w
 ```dart
 value = await sdkChannel.invokeMethod("goWithCustomDialog", <String, dynamic>{
         'sdkToken': 'XXXXXXX',
-        'firstName': 'Nico',
-        'lastName': 'Rico',
-        'email': 'nicorico@pngme.com',
-        'phoneNumber': '2348118445990',
-        'externalId': '',
+        'externalId': 'xxxxxx', // a unique identifier for the user provided by your app can be a phone number
         'companyName': 'AcmeInc',
         'hasAcceptedTerms': true, // default is false
       });
@@ -142,11 +134,7 @@ value = await sdkChannel.invokeMethod("goWithCustomDialog", <String, dynamic>{
 | Field           | Description                                                                                             |
 | --------------- | ------------------------------------------------------------------------------------------------------- |
 | `sdkToken`      | the SDK Token from the [Pngme Dashboard Keys page](https://admin.pngme.com/keys)                        |
-| `firstName`     | the mobile phone user's first name                                                                      |
-| `lastName`      | the mobile phone user's last name                                                                       |
-| `email`         | the mobile phone user's email address                                                                   |
-| `phoneNumber`   | the mobile phone user's phone number, example `"23411234567"`                                           |
-| `externalId`    | a unique identifier for the user provided by your app; if none available, pass an empty string `""`     |
+| `externalId`    | a unique identifier for the user provided by your app; can be a phone number    |
 | `companyName`   | your company's name, used in the display header of the [SMS Permission Flow](.docs/permission_flow.gif) |
 | hasAcceptedTerms | Set the value to 'true' if the user has accepted the terms and conditions when invoking the 'goWithCustomDialog' method. Defaults to false                  |
 
@@ -175,11 +163,7 @@ The Pngme SDK is launched in the `openSDK()` method located in the Flutter app e
 String value;
 value = await sdkChannel.invokeMethod("go", <String, dynamic>{
         'sdkToken': 'XXXXXXX',
-        'firstName': 'Nico',
-        'lastName': 'Rico',
-        'email': 'nicorico@pngme.com',
-        'phoneNumber': '2348118445990',
-        'externalId': '',
+        'externalId': '2348118445990',
         'companyName': 'AcmeInc'
       });
 ```

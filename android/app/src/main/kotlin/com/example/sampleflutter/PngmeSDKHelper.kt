@@ -18,23 +18,15 @@ class PngmeSDKHelper : AppCompatActivity() {
          * (passed to intent via MainActivity w. Flutter channel)
          */
         val sdkToken: String = intent.getStringExtra("sdkToken")!!
-        val firstName : String = intent.getStringExtra("firstName")!!
-        val lastName : String = intent.getStringExtra("lastName")!!
-        val email : String = intent.getStringExtra("email")!!
-        val phoneNumber : String = intent.getStringExtra("phoneNumber")!!
         val externalId : String = intent.getStringExtra("externalId")!!
         val companyName : String = intent.getStringExtra("companyName")!!
 
         PngmeSdk.go(
-            this,
-            sdkToken,
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-            externalId,
-            companyName,
-            ::onComplete
+            activity = this,
+            clientKey = sdkToken,
+            externalId = externalId,
+            companyName = companyName,
+            onComplete = ::onComplete
         )
     }
 
