@@ -37,6 +37,7 @@ class MainActivity: FlutterActivity() {
                 intent.putExtra("phoneNumber", phoneNumber)
                 intent.putExtra("externalId", externalId)
                 intent.putExtra("companyName", companyName)
+                intent.putExtra("hasAcceptedTerms", true)
 
                 // launch activity
                 activity.startActivity(intent)

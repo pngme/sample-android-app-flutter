@@ -60,7 +60,7 @@ Add the following dependencies to `/android/app/build.gradle`.
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // add from here
-    implementation 'com.github.pngme:android-sdk:v5.0.0'
+    implementation 'com.github.pngme:android-sdk:v6.0.3'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     // to here

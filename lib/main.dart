@@ -49,11 +49,11 @@ class _BodyWidgetState extends State<BodyWidget> {
     // Then, you can browse any sent data in the webconsole under Dashboard > Explore Data > (Select Test Environment on the right)
     try {
       value = await sdkChannel.invokeMethod("go", <String, dynamic>{
-        'sdkToken': 'XXXXXXX',
+        'sdkToken': 'xxxxxx',
         'firstName': 'Nico',
         'lastName': 'Rico',
-        'email': 'nicorico@pngme.com',
-        'phoneNumber': '2348118445990',
+        'email': 'nicorico@email.com',
+        'phoneNumber': '1234567890',
         'externalId': '',
         'companyName': 'AcmeInc'
       });

@@ -24,8 +24,9 @@ class PngmeSDKHelper : AppCompatActivity() {
         val phoneNumber : String = intent.getStringExtra("phoneNumber")!!
         val externalId : String = intent.getStringExtra("externalId")!!
         val companyName : String = intent.getStringExtra("companyName")!!
+        val hasAcceptedTerms : Boolean = intent.getBooleanExtra("hasAcceptedTerms", false)
 
-        PngmeSdk.go(
+        PngmeSdk.goWithCustomDialog(
             this,
             sdkToken,
             firstName,
@@ -34,6 +35,7 @@ class PngmeSDKHelper : AppCompatActivity() {
             phoneNumber,
             externalId,
             companyName,
+            hasAcceptedTerms,
             ::onComplete
         )
     }

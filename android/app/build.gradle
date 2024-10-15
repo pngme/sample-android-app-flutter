@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
     buildToolsVersion "33.0.0"
 
     compileOptions {
@@ -44,8 +44,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.sampleflutter"
-        minSdkVersion 16
-        targetSdkVersion 33
+        minSdkVersion 19
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled = true
@@ -66,6 +66,6 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "com.github.pngme:android-sdk:5.0.0"
+    implementation "com.github.pngme:android-sdk:v6.0.3"
     implementation "androidx.multidex:multidex:2.0.1"
 }
