@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://admin.pngme.com/logo.png" alt="Pngme" width="100" height="100">
-  <h3 align="center">Pngme Android (Flutter) Integration & Sample App</h3>
+  <h3 align="center">Pngme Android (Flutter) Integration Guide</h3>
 </p>
 
 This documentation covers how to use the Kotlin SDK v2.x with Flutter.
@@ -14,11 +14,11 @@ You can find similar documentation for [Expo](https://github.com/pngme/sample-an
 1. The SDK supports Android API version 16+
 1. The SDK enables your app to:
    1. Register a mobile phone user with Pngme
-   1. Request SMS permissions from the user using a [Permission Dialog Flow](.docs/permission_flow.gif)
    1. Periodically send data to Pngme to analyze financial events
 1. Using the SDK requires an **SDK Token**
    - [**Sign up for a free Pngme Dashboard account**](https://admin.pngme.com) then access your SDK token from the [Keys page](https://admin.pngme.com/keys)
    - Use the `test` SDK token during development but replace with the `production` SDK token before deploying your app to the Google Play store
+   - A custom consent dialog for requesting SMS permissions from the user. You can follow the design guide [here](https://drive.google.com/file/d/1SAc4Wt62mYUleDfSme3GMG9yyDT8omwP/view) to create a custom dialog.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/pngme/sample-android-app-flutter/main/.docs/webconsole_keys.png" width=450 height=300/>
@@ -106,7 +106,7 @@ Add the Flutter channel and ensure you override the `configureFlutterEngine` met
 
 ### Step 8
 
-Call the Pngme SDK via the Flutter channel from your main Flutter app, passing the `goWithCustomDialog` method in the channel.
+Call the Pngme SDK via the Flutter channel from your main Flutter app, passing the `goWithCustomDialog` method in the channel. `hasAcceptedTerms` should be set to `true` if the user given consent via the custom consent dialog. The custom should be implemented and shown to the user before calling the SDK.
 
 ```dart
 value = await sdkChannel.invokeMethod("goWithCustomDialog", <String, dynamic>{
@@ -152,36 +152,6 @@ This indicates if the user has accepted the SMS permissions request:
 
 - Returns `true` if the user has accepted the SMS permission request.
 - Returns `false` if the user has denied the SMS permission request.
-
-## Sample Flutter App
-
-The Pngme SDK is launched in the `openSDK()` method located in the Flutter app entrypoint: [`lib/main.dart`](lib/main.dart). This triggers a demo call to the PngmeSDK using the following arguments:
-
-```dart
-String value;
-value = await sdkChannel.invokeMethod("goWithCustomDialog", <String, dynamic>{
-        'sdkToken': 'XXXXXXX',
-        'firstName': 'Nico',
-        'lastName': 'Rico',
-        'email': 'nicorico@pngme.com',
-        'phoneNumber': '2348118445990',
-        'externalId': '',
-        'companyName': 'AcmeInc',
-        'hasAcceptedTerms': true,
-      });
-```
-
-### Behavior
-
-The sample app demonstrates a basic flow:
-
-1. user creates an account with the app
-2. the user goes to apply for a loan, and has the option of selecting to use the Pngme service
-3. if the Pngme service is selected, the SDK is invoked, and the [Permission Flow](.docs/permission_flow.gif) is presented (unless the `hidePngmeDialog` flag has been set to `true`)
-
-   <sub>- :warning: _Note that if a user chooses to hide the permissions flow, they will need to design their own information and consent screen compliant with Google Whitelisting requirements. Consult with <support@pngme.com> if you would like assistance with this process._</sub>
-
-4. when the permission flow exits, the user is presented with a fake loan application page
 
 ### Sending test data
 
