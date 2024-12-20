@@ -18,7 +18,7 @@ class MainActivity: FlutterActivity() {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler {
                 call, result ->
-            if (call.method == "go") {
+            if (call.method == "goWithCustomDialog") {
                 // capture call parameters
                 val sdkToken: String = call.argument("sdkToken")!!
                 val firstName : String = call.argument("firstName")!!
@@ -27,6 +27,7 @@ class MainActivity: FlutterActivity() {
                 val phoneNumber : String = call.argument("phoneNumber")!!
                 val externalId : String = call.argument("externalId")!!
                 val companyName : String = call.argument("companyName")!!
+                val hasAcceptedTerms : Boolean = call.argument("hasAcceptedTerms")!!
 
                 // create intent for PngmeSDKHelper Activity
                 val intent = Intent(context, PngmeSDKHelper::class.java)
@@ -37,6 +38,7 @@ class MainActivity: FlutterActivity() {
                 intent.putExtra("phoneNumber", phoneNumber)
                 intent.putExtra("externalId", externalId)
                 intent.putExtra("companyName", companyName)
+                intent.putExtra("hasAcceptedTerms", hasAcceptedTerms)
 
                 // launch activity
                 activity.startActivity(intent)

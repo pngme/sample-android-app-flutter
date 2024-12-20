@@ -60,7 +60,7 @@ Add the following dependencies to `/android/app/build.gradle`.
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     // add from here
-    implementation 'com.github.pngme:android-sdk:v5.0.0'
+    implementation 'com.github.pngme:android-sdk:v7.0.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     // to here
@@ -106,21 +106,7 @@ Add the Flutter channel and ensure you override the `configureFlutterEngine` met
 
 ### Step 8
 
-Call the Pngme SDK via the Flutter channel from your main Flutter app, passing the `go` method in the channel.
-
-```dart
-value = await sdkChannel.invokeMethod("go", <String, dynamic>{
-        'sdkToken': 'XXXXXXX',
-        'firstName': 'Nico',
-        'lastName': 'Rico',
-        'email': 'nicorico@pngme.com',
-        'phoneNumber': '2348118445990',
-        'externalId': '',
-        'companyName': 'AcmeInc'
-      });
-```
-
-If you would like to use your own onboarding flow in which a user is presented with Pngme's terms & conditions and privacy policy, you can use the `goWithCustomDialog` method.
+Call the Pngme SDK via the Flutter channel from your main Flutter app, passing the `goWithCustomDialog` method in the channel.
 
 ```dart
 value = await sdkChannel.invokeMethod("goWithCustomDialog", <String, dynamic>{
@@ -173,14 +159,15 @@ The Pngme SDK is launched in the `openSDK()` method located in the Flutter app e
 
 ```dart
 String value;
-value = await sdkChannel.invokeMethod("go", <String, dynamic>{
+value = await sdkChannel.invokeMethod("goWithCustomDialog", <String, dynamic>{
         'sdkToken': 'XXXXXXX',
         'firstName': 'Nico',
         'lastName': 'Rico',
         'email': 'nicorico@pngme.com',
         'phoneNumber': '2348118445990',
         'externalId': '',
-        'companyName': 'AcmeInc'
+        'companyName': 'AcmeInc',
+        'hasAcceptedTerms': true,
       });
 ```
 
