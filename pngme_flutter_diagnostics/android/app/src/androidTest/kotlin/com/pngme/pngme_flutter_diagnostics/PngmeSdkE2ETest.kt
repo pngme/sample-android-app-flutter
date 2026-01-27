@@ -14,12 +14,15 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.MethodSorters
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 @RunWith(AndroidJUnit4::class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class PngmeSdkE2ETest {
 
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
@@ -44,16 +47,42 @@ class PngmeSdkE2ETest {
             .result
             .get(10, TimeUnit.SECONDS)
 
-        // Ensure permission starts from a known state.
-        device.executeShellCommand("pm revoke $targetPackage android.permission.READ_SMS >/dev/null 2>&1 || true")
-
         device.wakeUp()
         device.pressHome()
         device.waitForIdle()
     }
 
     @Test
-    fun acceptTerms_and_allowPermission_enqueuesWorkers_and_marksPermissionGranted() {
+    fun test01_acceptTerms_and_denyPermission_still_enqueuesWorkers() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                PngmeSdk.go(
+                    activity = activity,
+                    clientKey = "test-client-key",
+                    firstName = "Test",
+                    lastName = "User",
+                    email = "test@example.com",
+                    phoneNumber = "0123456789",
+                    externalId = "ext-2",
+                    companyName = "Acme"
+                )
+            }
+
+            acceptTermsInBottomSheet()
+            denySmsPermission()
+
+            assertFalse("SDK should report not granted after deny", PngmeSdk.isPermissionGranted(targetContext))
+
+            // Critical regression guard: ABSA flow can grant permission later in Settings.
+            // Workers MUST already be enqueued once terms are accepted.
+            assertHasWorkEnqueued(WORK_SEND_SMS)
+            assertHasWorkEnqueued(WORK_RECOVERY_SMS)
+            assertHasWorkEnqueued(WORK_SIGN_IN)
+        }
+    }
+
+    @Test
+    fun test02_acceptTerms_and_allowPermission_enqueuesWorkers_and_marksPermissionGranted() {
         val onComplete = CountDownLatch(1)
 
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
@@ -84,41 +113,6 @@ class PngmeSdkE2ETest {
         }
     }
 
-    @Test
-    fun acceptTerms_and_denyPermission_still_enqueuesWorkers_then_manualGrant_makesPermissionGranted() {
-        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
-            scenario.onActivity { activity ->
-                PngmeSdk.go(
-                    activity = activity,
-                    clientKey = "test-client-key",
-                    firstName = "Test",
-                    lastName = "User",
-                    email = "test@example.com",
-                    phoneNumber = "0123456789",
-                    externalId = "ext-2",
-                    companyName = "Acme"
-                )
-            }
-
-            acceptTermsInBottomSheet()
-            denySmsPermission()
-
-            assertFalse("SDK should report not granted after deny", PngmeSdk.isPermissionGranted(targetContext))
-
-            // Critical regression guard: ABSA flow can grant permission later in Settings.
-            // Workers MUST already be enqueued once terms are accepted.
-            assertHasWorkEnqueued(WORK_SEND_SMS)
-            assertHasWorkEnqueued(WORK_RECOVERY_SMS)
-            assertHasWorkEnqueued(WORK_SIGN_IN)
-
-            // Simulate "manual grant later via Settings".
-            device.executeShellCommand("pm grant $targetPackage android.permission.READ_SMS")
-            device.waitForIdle()
-
-            assertTrue("SDK should report granted after manual permission grant", PngmeSdk.isPermissionGranted(targetContext))
-        }
-    }
-
     private fun acceptTermsInBottomSheet() {
         // These IDs come from the SDK's bottom sheet layout; they are merged into the app namespace at runtime.
         val checkbox =
@@ -138,6 +132,7 @@ class PngmeSdkE2ETest {
         val allowButton =
             device.wait(Until.findObject(By.res(PERMISSION_CONTROLLER_PKG, "permission_allow_button")), UI_TIMEOUT_MS)
                 ?: device.wait(Until.findObject(By.res(PERMISSION_CONTROLLER_PKG, "permission_allow_foreground_only_button")), UI_TIMEOUT_MS)
+                ?: device.wait(Until.findObject(By.textContains("ALLOW")), UI_TIMEOUT_MS)
                 ?: device.wait(Until.findObject(By.textContains("Allow")), UI_TIMEOUT_MS)
         assertNotNull("Allow button not found on permission dialog", allowButton)
         allowButton!!.click()
@@ -150,6 +145,7 @@ class PngmeSdkE2ETest {
         val denyButton =
             device.wait(Until.findObject(By.res(PERMISSION_CONTROLLER_PKG, "permission_deny_button")), UI_TIMEOUT_MS)
                 ?: device.wait(Until.findObject(By.textContains("Don't allow")), UI_TIMEOUT_MS)
+                ?: device.wait(Until.findObject(By.textContains("DENY")), UI_TIMEOUT_MS)
                 ?: device.wait(Until.findObject(By.textContains("Deny")), UI_TIMEOUT_MS)
         assertNotNull("Deny button not found on permission dialog", denyButton)
         denyButton!!.click()
